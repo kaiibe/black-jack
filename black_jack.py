@@ -1,9 +1,10 @@
 from main import clear_terminal
 
 class Black_Jack:
-    def __init__(self, bet: int, deck: list) -> None:
+    def __init__(self, player_balance: int, bet: int, deck: list) -> None:
         self.bet = bet
         self.deck = deck
+        self.player_balance = player_balance 
 
         self.player_cards = [self.deck[0], self.deck[1]]
         self.player_value = self.calculate_cards_value(self.player_cards)
@@ -12,12 +13,22 @@ class Black_Jack:
         self.dealer_value = self.calculate_cards_value(self.dealer_cards)
 
         self.cards_index = 4
+        self.first_move = True
         self.player_number_of_aces = 0
         self.dealer_number_of_aces = 0
 
+    def print_player_moves(self) -> str:
+        print("Enter you next move:")
+        print("Stand")
+        print("Double") if self.first_move and self.player_balance >= self.bet*2 else None
+        print("Hit") 
+        next_move = input("> ").lower()
+
+        return next_move
+
     def print_cards(self):
         print(f"\nYour cards: {self.player_cards}")
-        print(f"Dealer's cards: {self.dealer_cards[0:1]}")
+        print(f"Dealer's cards: {self.dealer_cards[0:1]}\n")
 
     def print_final_cards(self):
         print(f"\nYour cards: {self.player_cards}   {self.player_value}")
@@ -39,6 +50,7 @@ class Black_Jack:
         return 'No'  
 
     def player_get_card(self):
+        self.first_move = False 
         self.player_cards.append(self.deck[self.cards_index])
         self.player_value += self.calculate_cards_value(
             [self.deck[self.cards_index]])
