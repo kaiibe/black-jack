@@ -12,6 +12,8 @@ class Black_Jack:
         self.dealer_value = self.calculate_cards_value(self.dealer_cards)
 
         self.cards_index = 4
+        self.player_number_of_aces = 0
+        self.dealer_number_of_aces = 0
 
     def print_cards(self):
         print(f"\nYour cards: {self.player_cards}")
@@ -40,6 +42,11 @@ class Black_Jack:
         self.player_cards.append(self.deck[self.cards_index])
         self.player_value += self.calculate_cards_value(
             [self.deck[self.cards_index]])
+        
+        if self.player_value > 21 and 'A' in self.player_cards and self.player_number_of_aces < self.player_cards.count('A'):
+            self.player_value -= 10
+            self.player_number_of_aces += 1
+
         self.cards_index += 1
 
     def dealer_get_card(self):
@@ -47,6 +54,11 @@ class Black_Jack:
             self.dealer_cards.append(self.deck[self.cards_index])
             self.dealer_value += self.calculate_cards_value(
                 [self.deck[self.cards_index]])
+            
+            if self.dealer_value > 21 and 'A' in self.dealer_cards and self.dealer_number_of_aces < self.dealer_cards.count('A'):
+                self.dealer_value -= 10
+                self.dealer_number_of_aces += 1
+
             self.cards_index += 1
 
     def calculate_cards_value(self, cards: list) -> int:
